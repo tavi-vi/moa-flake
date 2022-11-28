@@ -47,7 +47,7 @@
         };
       }
     ) // {
-      nixosModules."moa" = { config, lib, pkgs }:
+      nixosModules."moa" = { config, lib, pkgs, ... }:
       with lib;
       let
         system = pkgs.hostPlatform.config;
