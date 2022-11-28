@@ -19,8 +19,8 @@
           requirements = builtins.readFile ./requirements.txt;
         };
       in {
-        packages = {
-          default = self.packages.${system}.moa;
+        packages = rec {
+          default = moa;
           moa = pkgs.writeScriptBin "moa" ''
             #!${pkgs.bash}/bin/bash
             cd ${pkgs.lib.escapeShellArg moa-src-conf}
