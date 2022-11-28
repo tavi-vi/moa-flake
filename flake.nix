@@ -62,14 +62,14 @@
             '';
           };
           listenAddress = mkOption {
-            type = string;
+            type = types.string;
             default = "127.0.0.1:8000";
             description = ''
               Address the server will listen on. Accepts any address accepted by gunicorn.
             '';
           };
           frequency = mkOption {
-            type = int;
+            type = types.int;
             default = 60;
             description = ''
               How frequently to run the worker that automatically makes pending posts.
