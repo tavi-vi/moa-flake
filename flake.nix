@@ -109,6 +109,7 @@
             isSystemUser = true;
             group = "moa";
           };
+          users.groups.moa = {};
         };
       };
     };
