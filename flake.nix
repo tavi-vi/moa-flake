@@ -62,7 +62,7 @@
             '';
           };
           listenAddress = mkOption {
-            type = types.string;
+            type = types.str;
             default = "127.0.0.1:8000";
             description = ''
               Address the server will listen on. Accepts any address accepted by gunicorn.
@@ -104,6 +104,10 @@
               OnUnitActiveSec = builtins.toString cfg.frequency;
               Unit = "moa-worker.service";
             };
+          };
+          users.users.moa = {
+            isSystemUser = true;
+            group = "moa";
           };
         };
       };
