@@ -42,14 +42,12 @@
             ${moaPrelude ""}
             ${python}/bin/python -m moa.models
           '';
-          moa-prelude = pkgs.writeText "moa-prelude" ;
           moa-src-conf = pkgs.runCommand "moa" {} ''
             cp -r ${pkgs.lib.escapeShellArg moa-src} "$out"
             chmod u+w "$out"
             chmod -R +w "$out"/logs
             rm -r "$out"/logs
             ln -s /etc/moa.conf "$out"/config.py
-            # ln -s ${dataDir}/logs "$out"/logs
           '';
         };
       }
