@@ -20,7 +20,7 @@
         };
         dataDir = "/var/lib/moa";
         moaPrelude = configPrefix: ''
-          export PYTHONPATH="${self.packages.${system}.moa-src-conf}:''${PYTHONPATH:+:$PYTHONPATH}"
+          export PYTHONPATH="${self.packages.${system}.moa-src-patched}:''${PYTHONPATH:+:$PYTHONPATH}"
           export MOA_CONFIG="${configPrefix}ProductionConfig"
           cd ${dataDir}
         '';
@@ -42,13 +42,13 @@
             ${moaPrelude ""}
             ${python}/bin/python -m moa.models
           '';
-          moa-src-conf = pkgs.runCommand "moa" {} ''
+          moa-src-patched = pkgs.runCommand "moa" {} ''
             cp -r ${pkgs.lib.escapeShellArg moa-src} "$out"
-            chmod u+w "$out"
-            chmod -R +w "$out"/logs
+            chmod -R u+w "$out"
             rm -r "$out"/logs
             ln -s /etc/moa.conf "$out"/config.py
             patch -u "$out"/app.py -i "${self}"/app-id.patch
+            patch -u "$out"/moa/worker.py -i "${self}"/worker-random.patch
           '';
         };
       }
