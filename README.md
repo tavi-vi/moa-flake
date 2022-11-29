@@ -33,7 +33,7 @@ GRANT ALL PRIVILEGES ON DATABASE moa TO moa;
 ```
 
 You'll want to setup your config at this point. There's an
-(example in this repository)[moa\_example.config].
+[example in this repository](moa_example.config).
 
 Then you'll need (? this may be optional, not sure.) to run moa-models from this
 flake. It sets up the database the rest of the way.
