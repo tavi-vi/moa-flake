@@ -39,7 +39,7 @@
           '';
           moa-prelude = pkgs.writeText "moa-prelude" ''
             export PYTHONPATH="${moa-src-conf}:''${PYTHONPATH:+:$PYTHONPATH}"
-            export MOACONFIG="config.ProductionConfig"
+            export MOA_CONFIG="config.ProductionConfig"
             cd ${dataDir}
           '';
           moa-src-conf = pkgs.runCommand "moa" {} ''
