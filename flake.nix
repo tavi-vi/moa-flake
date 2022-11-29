@@ -49,6 +49,7 @@
             ln -s /etc/moa.conf "$out"/config.py
             patch -u "$out"/app.py -i "${self}"/app-id.patch
             patch -u "$out"/moa/worker.py -i "${self}"/worker-random.patch
+            patch -u "$out"/moa/worker.py -i "${self}"/worker-id.patch
           '';
         };
       }
