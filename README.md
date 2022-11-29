@@ -49,3 +49,7 @@ and `services.moa.frequency`. Reference the flake definition for documentation.
 If I'm remembering all of what I did correctly, that should be all that's required
 to run Moa! Feel free to file an issue if this doesn't work for you, but be warned,
 I might be too busy to investigate what went wrong.
+
+# Previous art
+
+https://vitobotta.com/2022/11/12/setting-up-a-mastodon-twitter-crossposter/
