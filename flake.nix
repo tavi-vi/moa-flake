@@ -41,7 +41,7 @@
             export PYTHONPATH="${moa-src-conf}:''${PYTHONPATH:+:$PYTHONPATH}"
             export MOACONFIG="config.ProductionConfig"
             cd ${dataDir}
-          ''l
+          '';
           moa-src-conf = pkgs.runCommand "moa" {} ''
             cp -r ${pkgs.lib.escapeShellArg moa-src} "$out"
             chmod u+w "$out"
