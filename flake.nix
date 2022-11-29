@@ -21,7 +21,7 @@
         dataDir = "/var/lib/moa";
         moaPrelude = configPrefix: ''
           export PYTHONPATH="${self.packages.${system}.moa-src-conf}:''${PYTHONPATH:+:$PYTHONPATH}"
-          export MOA_CONFIG="${configPrefix}.ProductionConfig"
+          export MOA_CONFIG="${configPrefix}ProductionConfig"
           cd ${dataDir}
         '';
       in {
