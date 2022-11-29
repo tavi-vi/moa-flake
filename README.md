@@ -33,7 +33,11 @@ GRANT ALL PRIVILEGES ON DATABASE moa TO moa;
 ```
 
 You'll want to setup your config at this point. There's an
-[example in this repository](moa_example.conf).
+[example in this repository](moa_example.conf). You'll need application keys for
+the config. How to get them isn't covered here because it will almost certainly
+change. But you will need access to the extended API v1.1 endpoints for some
+reason. Twitter is calling this "Elevated" access now. You can request access and
+get it without having to wait for a review, you just have to fill out the form.
 
 Then you'll need (? this may be optional, not sure.) to run moa-models from this
 flake. It sets up the database the rest of the way.
