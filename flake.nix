@@ -97,6 +97,9 @@
             };
           };
           systemd.services.moa-worker = {
+            wants = [ "network-online.target" ];
+            after = [ "network-online.target" ];
+            wantedBy = [ "multi-user.target" ];
             serviceConfig = {
               Type = "oneshot";
               User = "moa";
