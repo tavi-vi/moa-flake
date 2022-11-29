@@ -24,22 +24,24 @@
           default = moa;
           moa = pkgs.writeScriptBin "moa" ''
             #!${pkgs.bash}/bin/bash
-            export PYTHONPATH="${moa-src-conf}:''${PYTHONPATH:+:$PYTHONPATH}"
-            cd ${dataDir}
+            . ${moa-prelude}
             ${python}/bin/gunicorn "$@" app:app
           '';
           moa-worker = pkgs.writeScriptBin "moa-worker" ''
             #!${pkgs.bash}/bin/bash
-            export PYTHONPATH="${moa-src-conf}:''${PYTHONPATH:+:$PYTHONPATH}"
-            cd ${dataDir}
+            . ${moa-prelude}
             ${python}/bin/python -m moa.worker
           '';
           moa-models = pkgs.writeScriptBin "moa-models" ''
             #!${pkgs.bash}/bin/bash
-            export PYTHONPATH="${moa-src-conf}:''${PYTHONPATH:+:$PYTHONPATH}"
-            cd ${dataDir}
+            . ${moa-prelude}
             ${python}/bin/python -m moa.models
           '';
+          moa-prelude = pkgs.writeText "moa-prelude" ''
+            export PYTHONPATH="${moa-src-conf}:''${PYTHONPATH:+:$PYTHONPATH}"
+            export MOACONFIG="config.ProductionConfig"
+            cd ${dataDir}
+          ''l
           moa-src-conf = pkgs.runCommand "moa" {} ''
             cp -r ${pkgs.lib.escapeShellArg moa-src} "$out"
             chmod u+w "$out"
