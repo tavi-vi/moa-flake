@@ -19,29 +19,30 @@
           requirements = builtins.readFile ./requirements.txt;
         };
         dataDir = "/var/lib/moa";
+        moaPrelude = configPrefix: ''
+          export PYTHONPATH="${self.packages.${system}.moa-src-conf}:''${PYTHONPATH:+:$PYTHONPATH}"
+          export MOA_CONFIG="${configPrefix}.ProductionConfig"
+          cd ${dataDir}
+        '';
       in {
         packages = rec {
           default = moa;
           moa = pkgs.writeScriptBin "moa" ''
             #!${pkgs.bash}/bin/bash
-            . ${moa-prelude}
+            ${moaPrelude "config."}
             ${python}/bin/gunicorn "$@" app:app
           '';
           moa-worker = pkgs.writeScriptBin "moa-worker" ''
             #!${pkgs.bash}/bin/bash
-            . ${moa-prelude}
+            ${moaPrelude ""}
             ${python}/bin/python -m moa.worker
           '';
           moa-models = pkgs.writeScriptBin "moa-models" ''
             #!${pkgs.bash}/bin/bash
-            . ${moa-prelude}
+            ${moaPrelude ""}
             ${python}/bin/python -m moa.models
           '';
-          moa-prelude = pkgs.writeText "moa-prelude" ''
-            export PYTHONPATH="${moa-src-conf}:''${PYTHONPATH:+:$PYTHONPATH}"
-            export MOA_CONFIG="ProductionConfig"
-            cd ${dataDir}
-          '';
+          moa-prelude = pkgs.writeText "moa-prelude" ;
           moa-src-conf = pkgs.runCommand "moa" {} ''
             cp -r ${pkgs.lib.escapeShellArg moa-src} "$out"
             chmod u+w "$out"
