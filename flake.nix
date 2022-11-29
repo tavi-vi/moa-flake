@@ -24,19 +24,19 @@
           default = moa;
           moa = pkgs.writeScriptBin "moa" ''
             #!${pkgs.bash}/bin/bash
-            PYTHONPATH="${moa-src-conf}:''${PYTHONPATH:+:$PYTHONPATH}"
+            export PYTHONPATH="${moa-src-conf}:''${PYTHONPATH:+:$PYTHONPATH}"
             cd ${dataDir}
             ${python}/bin/gunicorn "$@" app:app
           '';
           moa-worker = pkgs.writeScriptBin "moa-worker" ''
             #!${pkgs.bash}/bin/bash
-            PYTHONPATH="${moa-src-conf}:''${PYTHONPATH:+:$PYTHONPATH}"
+            export PYTHONPATH="${moa-src-conf}:''${PYTHONPATH:+:$PYTHONPATH}"
             cd ${dataDir}
             ${python}/bin/python -m moa.worker
           '';
           moa-models = pkgs.writeScriptBin "moa-models" ''
             #!${pkgs.bash}/bin/bash
-            PYTHONPATH="${moa-src-conf}:''${PYTHONPATH:+:$PYTHONPATH}"
+            export PYTHONPATH="${moa-src-conf}:''${PYTHONPATH:+:$PYTHONPATH}"
             cd ${dataDir}
             ${python}/bin/python -m moa.models
           '';
