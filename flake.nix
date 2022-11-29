@@ -18,22 +18,25 @@
         python = mach-nix.lib.${system}.mkPython {
           requirements = builtins.readFile ./requirements.txt;
         };
+        dataDir = "/var/lib/moa";
       in {
         packages = rec {
           default = moa;
           moa = pkgs.writeScriptBin "moa" ''
             #!${pkgs.bash}/bin/bash
-            cd ${pkgs.lib.escapeShellArg moa-src-conf}
-            ${python}/bin/gunicorn "$@" app:app
+            cd ${dataDir}
+            ${python}/bin/gunicorn "$@" ${moa-src-conf}/app:app
           '';
           moa-worker = pkgs.writeScriptBin "moa-worker" ''
             #!${pkgs.bash}/bin/bash
-            cd ${pkgs.lib.escapeShellArg moa-src-conf}
+            PYTHONPATH="$PYTHONPATH:${moa-src-conf}"
+            cd ${dataDir}
             ${python}/bin/python -m moa.worker
           '';
           moa-models = pkgs.writeScriptBin "moa-models" ''
             #!${pkgs.bash}/bin/bash
-            cd ${pkgs.lib.escapeShellArg moa-src-conf}
+            PYTHONPATH="$PYTHONPATH:${moa-src-conf}"
+            cd ${dataDir}
             ${python}/bin/python -m moa.models
           '';
           moa-src-conf = pkgs.runCommand "moa" {} ''
@@ -42,7 +45,7 @@
             chmod -R +w "$out"/logs
             rm -r "$out"/logs
             ln -s /etc/moa.conf "$out"/config.py
-            ln -s /var/lib/moa/logs "$out"/logs
+            # ln -s ${dataDir}/logs "$out"/logs
           '';
         };
       }
