@@ -17,6 +17,15 @@ is expected to be at /etc/moa.config. The configuration format is unchanged, it'
 still just python, like `config.py.sample` in the Moa source. It expects you to
 define a ProductionConfig class.
 
+# Caveat Emptor
+
+You might not want to use this. I'm ignoring the versions of the libraries that moa
+requests in its requirements.txt. I just jiggled around the versions until it worked.
+It does seem to work alright though.
+
+I'm also doing moderate shenanigans to get it to run in /var/lib/moa. I don't think
+that would make it behave strange, but you never know.
+
 # Setup
 
 The setup process should be simple, but I'm not gonna follow my own steps to verify,
@@ -52,4 +61,7 @@ I might be too busy to investigate what went wrong.
 
 # Previous art
 
-https://vitobotta.com/2022/11/12/setting-up-a-mastodon-twitter-crossposter/
+https://vitobotta.com/2022/11/12/setting-up-a-mastodon-twitter-crossposter/ (please
+don't follow these instructions. It tells you to just run app.py, which uses the flask
+development server, which is 
+[not meant for any use other than development](https://flask.palletsprojects.com/en/2.2.x/deploying/).)
