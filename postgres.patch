@@ -1,0 +1,37 @@
+diff -ruN ./moa/app.py ./moa-patch/app.py
+--- ./moa/app.py	1969-12-31 19:00:01.000000000 -0500
++++ ./moa-patch/app.py	2022-11-30 13:40:58.968599165 -0500
+@@ -476,7 +476,7 @@
+         username = creds["username"]
+         account_id = creds["id"]
+ 
+-        bridge = db.session.query(Bridge).filter_by(mastodon_account_id=account_id, mastodon_host_id=masto_host.id).first()
++        bridge = db.session.query(Bridge).filter_by(mastodon_account_id=str(account_id), mastodon_host_id=masto_host.id).first()
+ 
+         if bridge:
+             session['bridge_id'] = bridge.id
+Binary files ./moa/.app.py.swp and ./moa-patch/.app.py.swp differ
+diff -ruN ./moa/moa/tweet_poster.py ./moa-patch/moa/tweet_poster.py
+--- ./moa/moa/tweet_poster.py	1969-12-31 19:00:01.000000000 -0500
++++ ./moa-patch/moa/tweet_poster.py	2022-11-30 13:54:40.199643529 -0500
+@@ -60,7 +60,7 @@
+ 
+                 # In the case where a toot has been broken into multiple tweets
+                 # we want the last one posted
+-                mapping = self.session.query(Mapping).filter_by(mastodon_id=post.in_reply_to_id).order_by(
++                mapping = self.session.query(Mapping).filter_by(mastodon_id=str(post.in_reply_to_id)).order_by(
+                         Mapping.created.desc()).first()
+ 
+                 if mapping:
+Binary files ./moa/moa/.tweet_poster.py.swp and ./moa-patch/moa/.tweet_poster.py.swp differ
+diff -ruN ./moa/moa/worker.py ./moa-patch/moa/worker.py
+--- ./moa/moa/worker.py	1969-12-31 19:00:01.000000000 -0500
++++ ./moa-patch/moa/worker.py	2022-11-30 13:55:11.785004679 -0500
+@@ -136,7 +136,7 @@
+ l.info(f"Working on {bridges.count()} bridges")
+ 
+ if 'sqlite' not in c.SQLALCHEMY_DATABASE_URI and not c.DEVELOPMENT:
+-    bridges = bridges.order_by(func.rand())
++    bridges = bridges.order_by(func.random())
+ 
+ bridge_count = 0

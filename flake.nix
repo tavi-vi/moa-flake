@@ -43,13 +43,10 @@
             ${python}/bin/python -m moa.models
           '';
           moa-src-patched = pkgs.runCommand "moa" {} ''
-            cp -r ${pkgs.lib.escapeShellArg moa-src} "$out"
-            chmod -R u+w "$out"
-            rm -r "$out"/logs
+            cp -r ${moa-src} $out
+            chmod -R u+w $out
             ln -s /etc/moa.conf "$out"/config.py
-            patch -u "$out"/app.py -i "${self}"/app-id.patch
-            patch -u "$out"/moa/worker.py -i "${self}"/worker-random.patch
-            patch -u "$out"/moa/worker.py -i "${self}"/worker-id.patch
+            patch -p2 -d $out <"${self}"/postgres.patch
           '';
         };
       }
