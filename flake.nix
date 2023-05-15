@@ -76,7 +76,14 @@
             type = types.int;
             default = 60;
             description = ''
-              How frequently to run the worker that automatically makes pending posts.
+              How frequently to run the worker that automatically makes pending posts, in seconds.
+            '';
+          };
+          timeout = mkOption {
+            type = types.nullOr types.int;
+            default = null;
+            description = ''
+              How long to wait before killing the woker, in seconds. If unset, it is four times the time specified for frequency.
             '';
           };
         };
@@ -101,6 +108,9 @@
               Type = "oneshot";
               User = "moa";
               ExecStart = lib.escapeShellArgs [ "${self.packages.${system}.moa-worker}/bin/moa-worker" ];
+              TimeoutSec = if !(isNull cfg.timeout)
+                then (toString cfg.timeout)
+                else (toString (cfg.frequency * 4));
             };
           };
           systemd.timers.moa-worker = {
