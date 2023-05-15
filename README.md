@@ -24,7 +24,7 @@ requests in its requirements.txt. I just jiggled around the versions until it wo
 It does seem to work alright though.
 
 I had to patch a few things to make it work with Postgres, but these changes should
-be compatible with MySQL too. Check [Merge request 9][https://gitlab.com/fedstoa/moa/-/merge_requests/9]
+be compatible with MySQL too. Check [Merge request 9](https://gitlab.com/fedstoa/moa/-/merge_requests/9)
 to see if it's been upstreamed.
 
 I'm also doing moderate shenanigans to get it to run in /var/lib/moa. I don't think
